@@ -11,7 +11,7 @@ Design Decisions:
 - Errors degrade gracefully with explicit uncertainty
 """
 
-from typing import Dict, Any, List
+from datetime import datetime, timezone
 from app.api.schemas import (
     AnalyzeRequest, 
     AnalyzeResponse,

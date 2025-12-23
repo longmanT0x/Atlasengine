@@ -236,3 +236,5 @@ class AnalyzeResponse(BaseModel):
         None,
         description="Full evidence ledger (only included when debug=true)"
     )
+
+AnalyzeResponse.model_rebuild()

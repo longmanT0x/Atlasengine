@@ -12,7 +12,7 @@ Design Decisions:
 from typing import Optional, Dict, Any
 import uuid
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timezone
 from app.storage.database import get_db_connection
 
 
@@ -43,7 +43,7 @@ def store_source(
         cursor.execute("""
             INSERT INTO sources (id, url, title, extracted_text, credibility_score, timestamp)
             VALUES (?, ?, ?, ?, ?, ?)
-        """, (source_id, url, title, extracted_text, credibility_score, datetime.now(datetime.UTC)))
+        """, (source_id, url, title, extracted_text, credibility_score, datetime.now(timezone.utc)))
         
         conn.commit()
         return source_id

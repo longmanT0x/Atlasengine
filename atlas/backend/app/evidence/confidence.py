@@ -12,20 +12,11 @@ Design Decisions:
 """
 
 from typing import Dict, Any, List, Tuple
-from datetime import datetime, timedelta
-import statistics
-from collections import defaultdict
+from datetime import datetime, timedelta, timezone
 from app.storage.database import get_db_connection
 
 
 def get_all_sources() -> List[Dict[str, Any]]:
-    """
-    Get all sources from the database.
-    
-    Returns:
-        List of source dictionaries with id, url, timestamp, credibility_score
-    """
-    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.row_factory = lambda cursor, row: {
         'id': row[0],
@@ -201,7 +192,7 @@ def score_data_freshness(sources: List[Dict[str, Any]], facts: List[Dict[str, An
         Tuple of (score 0-100, explanation notes)
     """
     notes = []
-    now = datetime.now(datetime.UTC)
+    now = datetime.now(timezone.utc)
     
     # Get most recent source timestamp
     source_timestamps = []
@@ -221,7 +212,7 @@ def score_data_freshness(sources: List[Dict[str, Any]], facts: List[Dict[str, An
                 
                 # Ensure timestamp is timezone-aware
                 if timestamp.tzinfo is None:
-                    timestamp = timestamp.replace(tzinfo=datetime.UTC)
+                    timestamp = timestamp.replace(tzinfo=timezone.utc)
                 
                 source_timestamps.append(timestamp)
             except Exception:
@@ -245,7 +236,7 @@ def score_data_freshness(sources: List[Dict[str, Any]], facts: List[Dict[str, An
                 
                 # Ensure timestamp is timezone-aware
                 if timestamp.tzinfo is None:
-                    timestamp = timestamp.replace(tzinfo=datetime.UTC)
+                    timestamp = timestamp.replace(tzinfo=timezone.utc)
                 
                 fact_timestamps.append(timestamp)
             except Exception:
