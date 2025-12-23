@@ -1,0 +1,8 @@
+{
+  "projectId": "d3c28f7c-1895-4bfb-80b4-95adc0fd38d1",
+  "createdAt": 1766511475522,
+  "startupCommands": [
+    "cd atlas/backend && python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000",
+    "cd atlas/frontend && bun run dev"
+  ]
+}
