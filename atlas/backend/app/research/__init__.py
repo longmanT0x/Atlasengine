@@ -19,7 +19,7 @@ from app.research.source_prioritization import prioritize_sources, filter_high_q
 from app.research.text_extraction import extract_clean_text
 from app.research.storage import store_source, source_exists
 from app.evidence.ledger import store_claim
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 async def research_market(
@@ -112,7 +112,7 @@ async def research_market(
                 source_url=url,
                 excerpt=excerpt,
                 credibility_score=credibility,
-                retrieved_at=datetime.utcnow()
+                retrieved_at=datetime.now(timezone.utc)
             )
         
         # Stop if we have enough sources

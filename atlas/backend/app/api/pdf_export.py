@@ -12,17 +12,8 @@ Design Decisions:
 
 from typing import Dict, Any
 from io import BytesIO
-from datetime import datetime
+from datetime import datetime, timezone
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter, A4
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import inch
-from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak,
-    KeepTogether
-)
-from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
-from app.api.schemas import AnalyzeResponse
 
 
 def generate_pdf_memo(response: AnalyzeResponse, request_data: Dict[str, Any]) -> BytesIO:
@@ -110,7 +101,7 @@ def generate_pdf_memo(response: AnalyzeResponse, request_data: Dict[str, Any]) -
     elements.append(Spacer(1, 0.2*inch))
     
     # Date and Idea
-    date_str = datetime.now().strftime("%B %d, %Y")
+    date_str = datetime.now(timezone.utc).strftime("%B %d, %Y")
     elements.append(Paragraph(f"<b>Date:</b> {date_str}", body_style))
     elements.append(Spacer(1, 0.1*inch))
     
