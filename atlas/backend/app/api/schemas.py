@@ -11,7 +11,7 @@ Design Decisions:
 - Numeric claims must include source attribution
 """
 
-from typing import Optional, List, Literal, Dict
+from typing import Optional, List, Literal, Dict, Any
 from pydantic import BaseModel, Field
 
 

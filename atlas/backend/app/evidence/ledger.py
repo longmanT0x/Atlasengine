@@ -13,7 +13,7 @@ Design Decisions:
 from typing import Optional, Dict, Any, List
 import uuid
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timezone
 from app.storage.database import get_db_connection
 
 
@@ -59,7 +59,7 @@ def store_claim(
             claim_confidence = 'high'
         
         if retrieved_at is None:
-            retrieved_at = datetime.now(datetime.UTC)
+            retrieved_at = datetime.now(timezone.utc)
         
         cursor.execute("""
             INSERT INTO evidence_ledger 

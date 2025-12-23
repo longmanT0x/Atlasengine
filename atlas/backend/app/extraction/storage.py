@@ -12,7 +12,7 @@ Design Decisions:
 from typing import Optional, Dict, Any, List
 import uuid
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timezone
 from app.storage.database import get_db_connection
 from app.evidence.ledger import store_claim
 from app.research.storage import get_source_by_url
@@ -68,7 +68,7 @@ def store_extracted_fact(
             source_url,
             1 if is_inferred else 0,
             inference_reason,
-            datetime.now(datetime.UTC)
+            datetime.now(timezone.utc)
         ))
         
         conn.commit()
@@ -93,7 +93,7 @@ def store_extracted_fact(
             credibility_score=credibility_score,
             value=numeric_value,
             unit=unit,
-            retrieved_at=datetime.now(datetime.UTC)
+            retrieved_at=datetime.now(timezone.utc)
         )
         
         return fact_id

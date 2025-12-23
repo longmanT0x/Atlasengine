@@ -13,7 +13,7 @@ Design Decisions:
 
 from typing import Dict, Any, Optional, List
 from pydantic import BaseModel
-from datetime import datetime
+from datetime import datetime, timezone
 from app.evidence.confidence import calculate_confidence_score
 
 
@@ -81,7 +81,7 @@ def store_evidence(
     from app.storage.database import get_db_connection
     
     evidence_id = str(uuid.uuid4())
-    timestamp = datetime.now(datetime.UTC)
+    timestamp = datetime.now(timezone.utc)
     
     # Serialize assumptions and derived_from as JSON
     assumptions_json = json.dumps(assumptions) if assumptions else None
