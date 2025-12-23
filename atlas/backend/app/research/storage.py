@@ -43,7 +43,7 @@ def store_source(
         cursor.execute("""
             INSERT INTO sources (id, url, title, extracted_text, credibility_score, timestamp)
             VALUES (?, ?, ?, ?, ?, ?)
-        """, (source_id, url, title, extracted_text, credibility_score, datetime.utcnow()))
+        """, (source_id, url, title, extracted_text, credibility_score, datetime.now(datetime.UTC)))
         
         conn.commit()
         return source_id

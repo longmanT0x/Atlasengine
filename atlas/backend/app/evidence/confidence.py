@@ -201,7 +201,7 @@ def score_data_freshness(sources: List[Dict[str, Any]], facts: List[Dict[str, An
         Tuple of (score 0-100, explanation notes)
     """
     notes = []
-    now = datetime.utcnow()
+    now = datetime.now(datetime.UTC)
     
     # Get most recent source timestamp
     source_timestamps = []
@@ -218,6 +218,11 @@ def score_data_freshness(sources: List[Dict[str, Any]], facts: List[Dict[str, An
                         timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S')
                 else:
                     timestamp = timestamp_str
+                
+                # Ensure timestamp is timezone-aware
+                if timestamp.tzinfo is None:
+                    timestamp = timestamp.replace(tzinfo=datetime.UTC)
+                
                 source_timestamps.append(timestamp)
             except Exception:
                 pass
@@ -237,6 +242,11 @@ def score_data_freshness(sources: List[Dict[str, Any]], facts: List[Dict[str, An
                         timestamp = datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S')
                 else:
                     timestamp = timestamp_str
+                
+                # Ensure timestamp is timezone-aware
+                if timestamp.tzinfo is None:
+                    timestamp = timestamp.replace(tzinfo=datetime.UTC)
+                
                 fact_timestamps.append(timestamp)
             except Exception:
                 pass

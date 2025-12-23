@@ -81,7 +81,7 @@ def store_evidence(
     from app.storage.database import get_db_connection
     
     evidence_id = str(uuid.uuid4())
-    timestamp = datetime.utcnow()
+    timestamp = datetime.now(datetime.UTC)
     
     # Serialize assumptions and derived_from as JSON
     assumptions_json = json.dumps(assumptions) if assumptions else None

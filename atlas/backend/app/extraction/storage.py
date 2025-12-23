@@ -68,7 +68,7 @@ def store_extracted_fact(
             source_url,
             1 if is_inferred else 0,
             inference_reason,
-            datetime.utcnow()
+            datetime.now(datetime.UTC)
         ))
         
         conn.commit()
@@ -93,7 +93,7 @@ def store_extracted_fact(
             credibility_score=credibility_score,
             value=numeric_value,
             unit=unit,
-            retrieved_at=datetime.utcnow()
+            retrieved_at=datetime.now(datetime.UTC)
         )
         
         return fact_id

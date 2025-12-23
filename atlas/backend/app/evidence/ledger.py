@@ -59,7 +59,7 @@ def store_claim(
             claim_confidence = 'high'
         
         if retrieved_at is None:
-            retrieved_at = datetime.utcnow()
+            retrieved_at = datetime.now(datetime.UTC)
         
         cursor.execute("""
             INSERT INTO evidence_ledger 

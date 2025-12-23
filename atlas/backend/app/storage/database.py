@@ -10,9 +10,21 @@ and potential future migration to other database backends.
 from typing import Optional, Dict, Any
 import sqlite3
 from pathlib import Path
+from datetime import datetime
 
 # Database path
 DB_PATH = Path(__file__).parent / "atlas.db"
+
+# Register datetime adapters for Python 3.12+
+def adapt_datetime(dt):
+    return dt.isoformat()
+
+def convert_datetime(val):
+    return datetime.fromisoformat(val.decode())
+
+sqlite3.register_adapter(datetime, adapt_datetime)
+sqlite3.register_converter("DATETIME", convert_datetime)
+sqlite3.register_converter("timestamp", convert_datetime)
 
 def init_db():
     """
@@ -24,7 +36,7 @@ def init_db():
     - models: Stores market models
     - decisions: Stores viability decisions
     """
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
     cursor = conn.cursor()
     
     # Evidence table
@@ -164,7 +176,7 @@ def get_db_connection():
     Returns:
         sqlite3.Connection object
     """
-    return sqlite3.connect(DB_PATH)
+    return sqlite3.connect(DB_PATH, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
 
 __all__ = ["init_db", "get_db_connection", "DB_PATH"]
 

@@ -53,23 +53,40 @@ from app.api.content_generation import (
 async def run_analysis_pipeline(request: AnalyzeRequest) -> AnalyzeResponse:
     """
     Execute the full analysis pipeline for market viability assessment.
-    
-    Pipeline Steps:
-    1. Research: Gather market data from traceable sources
-    2. Extraction: Extract structured information from research
-    3. Modeling: Create probabilistic market models
-    4. Decision: Make viability decision based on models
-    5. Confidence: Calculate confidence score
-    6. Compilation: Assemble final decision memo
-    
-    Args:
-        request: AnalyzeRequest with startup information
-        
-    Returns:
-        AnalyzeResponse with complete decision memo
-        
-    Errors degrade gracefully with explicit uncertainty markers.
     """
+    try:
+        return await _run_analysis_pipeline_internal(request)
+    except Exception as e:
+        import traceback
+        print(f"CRITICAL ERROR in analysis pipeline: {e}")
+        print(traceback.format_exc())
+        # Return a graceful failure response instead of a 500
+        from app.api.schemas import MarketSection, MarketSize, SAM, SOM, Risks, Test
+        
+        # Create empty/fallback objects to satisfy Pydantic validation
+        fallback_market = MarketSection(
+            tam=MarketSize(min=0, base=0, max=0, assumptions=["Analysis failed"]),
+            sam=SAM(min=0, base=0, max=0),
+            som=SOM(min=0, base=0, max=0)
+        )
+        
+        return AnalyzeResponse(
+            verdict="CONDITIONAL",
+            confidence_score=0,
+            executive_summary=[f"Analysis failed: {str(e)}", "Please check your input and try again."] + ["-"] * 6,
+            market=fallback_market,
+            competitors=[],
+            risks=Risks(market=[], competition=[], regulatory=[], distribution=[]),
+            assumptions=[f"Pipeline error: {str(e)}"],
+            sources=[],
+            key_unknowns=["-"] * 5,
+            next_7_days_tests=[Test(test="-", method="-", success_threshold="-")] * 6,
+            scenarios={},
+            sensitivity_analysis=[],
+        )
+
+async def _run_analysis_pipeline_internal(request: AnalyzeRequest) -> AnalyzeResponse:
+    """Internal implementation of the analysis pipeline."""
     errors = []
     warnings = []
     
@@ -592,6 +609,20 @@ def _compile_response(
             # Convert to list of dicts for JSON serialization
             evidence_ledger = []
             for claim in all_claims:
+                # Ensure retrieved_at is a datetime object or can be formatted
+                retrieved_at = claim.get('retrieved_at')
+                if retrieved_at:
+                    if isinstance(retrieved_at, str):
+                        # Pydantic will handle string to datetime if it's ISO format
+                        # or we can pass it as is
+                        formatted_date = retrieved_at
+                    elif hasattr(retrieved_at, 'isoformat'):
+                        formatted_date = retrieved_at.isoformat()
+                    else:
+                        formatted_date = str(retrieved_at)
+                else:
+                    formatted_date = None
+
                 evidence_ledger.append({
                     'id': claim['id'],
                     'claim_text': claim['claim_text'],
@@ -600,7 +631,7 @@ def _compile_response(
                     'unit': claim['unit'],
                     'source_url': claim['source_url'],
                     'excerpt': claim['excerpt'],
-                    'retrieved_at': claim['retrieved_at'].isoformat() if hasattr(claim['retrieved_at'], 'isoformat') else str(claim['retrieved_at']),
+                    'retrieved_at': formatted_date,
                     'credibility_score': claim['credibility_score'],
                     'claim_confidence': claim['claim_confidence']
                 })
