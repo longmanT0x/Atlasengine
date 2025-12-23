@@ -122,16 +122,16 @@ export default function ReportPage() {
     const checkPdfEndpoint = async () => {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'
-        // Try a HEAD request to check if endpoint exists (some servers don't support HEAD, so we'll catch and continue)
+        // Use GET request to check if endpoint exists
         const response = await fetch(`${apiUrl}/export/pdf`, {
-          method: 'HEAD',
+          method: 'GET',
         })
         if (response.status === 404 || response.status === 405) {
           setPdfAvailable(false)
           setPdfError('PDF export endpoint not available')
         }
       } catch (err) {
-        // If HEAD fails, we'll still show the button and let the user try
+        // If GET fails, we'll still show the button and let the user try
         // The actual POST request will handle the error
       }
     }

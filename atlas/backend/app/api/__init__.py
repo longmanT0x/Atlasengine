@@ -82,24 +82,20 @@ async def get_research():
 
 
 @router.post("/export/pdf")
-async def export_pdf_memo(request: AnalyzeRequest) -> Response:
+@router.get("/export/pdf")
+async def export_pdf_memo(request: AnalyzeRequest = None) -> Response:
     """
     Export analysis results as a professional PDF memo.
     
     This endpoint:
-    1. Runs the same analysis pipeline as /analyze
+    1. Runs the same analysis pipeline as /analyze (if POST)
     2. Generates a professional PDF document
     3. Returns the PDF as a downloadable file
     
-    Args:
-        request: AnalyzeRequest containing startup idea details
-        
-    Returns:
-        PDF file as downloadable response with filename "atlas_memo.pdf"
-        
-    Raises:
-        HTTPException: If analysis pipeline fails or PDF generation fails
+    If called via GET, it returns a 200 OK to indicate the endpoint is available.
     """
+    if request is None:
+        return Response(content="PDF export endpoint is available", status_code=200)
     try:
         # Run the same analysis pipeline
         analysis_result = await run_analysis_pipeline(request)
