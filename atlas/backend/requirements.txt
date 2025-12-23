@@ -1,0 +1,39 @@
+# ATLAS - Decision Intelligence for Market Viability
+# Python 3.11
+
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# Data Validation
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Database
+# SQLite is included in Python standard library
+
+# HTTP Client (for research module)
+httpx==0.25.2
+
+# Web Search (for research module)
+duckduckgo-search==4.1.1
+
+# HTML Parsing (for research module)
+beautifulsoup4==4.12.2
+lxml==4.9.3
+
+# Environment Management
+python-dotenv==1.0.0
+
+# Utilities
+python-dateutil==2.8.2
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+httpx==0.25.2  # Also used for testing
+
+# PDF Generation
+reportlab==4.0.7
+
