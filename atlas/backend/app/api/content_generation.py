@@ -13,7 +13,7 @@ Design Decisions:
 
 from typing import List, Dict, Any, Optional
 from app.modeling import MarketModel
-from app.decision import DecisionResult, CompetitorInfo, RiskAnalysis
+from app.decision.schemas import DecisionResult, CompetitorInfo, RiskAnalysis
 from app.storage.database import get_db_connection
 
 
