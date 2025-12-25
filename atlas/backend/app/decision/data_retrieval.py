@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Data Retrieval Module for Decision Analysis
 

@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Decision Engine Module
 
@@ -283,8 +284,8 @@ def determine_verdict(
 
 def generate_disconfirming_evidence(
     market_model: MarketModel,
-    competitors: List[Any],  # List[CompetitorInfo]
-    risks: Any,  # RiskAnalysis
+    competitors: List[CompetitorInfo],
+    risks: RiskAnalysis,
     overall_score: float
 ) -> List[str]:
     """
