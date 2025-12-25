@@ -238,3 +238,9 @@ class AnalyzeResponse(BaseModel):
     )
 
 AnalyzeResponse.model_rebuild()
+model_rebuild_success = True
+try:
+    AnalyzeResponse.model_rebuild()
+except Exception:
+    # Fallback if first rebuild fails
+    AnalyzeResponse.model_rebuild(_types_namespace={'Any': Any})

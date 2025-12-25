@@ -10,10 +10,16 @@ Design Decisions:
 - Proper table formatting for market data and competitors
 """
 
-from typing import Dict, Any
+from typing import Dict, Any, List
 from io import BytesIO
 from datetime import datetime, timezone
 from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
+from app.api.schemas import AnalyzeResponse
 
 
 def generate_pdf_memo(response: AnalyzeResponse, request_data: Dict[str, Any]) -> BytesIO:
