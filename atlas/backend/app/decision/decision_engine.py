@@ -12,6 +12,7 @@ Design Decisions:
 
 from typing import Dict, Any, List, Literal, Tuple
 from app.modeling import MarketModel
+from app.decision.schemas import CompetitorInfo, RiskAnalysis
 
 
 def score_market_size(market_model: MarketModel) -> Tuple[float, List[str]]:

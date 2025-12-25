@@ -18,6 +18,7 @@ Design Decisions:
 from typing import Dict, Any, List, Literal
 from pydantic import BaseModel
 from app.modeling import MarketModel
+from app.decision.schemas import CompetitorInfo, RiskAnalysis, DecisionResult
 from app.decision.data_retrieval import (
     get_competitor_facts,
     get_regulatory_facts,
@@ -41,35 +42,6 @@ from app.decision.decision_engine import (
     determine_verdict,
     generate_disconfirming_evidence
 )
-
-
-class CompetitorInfo(BaseModel):
-    """Represents analyzed competitor information."""
-    name: str
-    positioning: str
-    pricing: str
-    geography: str
-    differentiator: str
-    source_url: str
-
-
-class RiskAnalysis(BaseModel):
-    """Represents risk analysis grouped by category."""
-    market: List[str]
-    competition: List[str]
-    regulatory: List[str]
-    distribution: List[str]
-
-
-class DecisionResult(BaseModel):
-    """Represents a complete decision result."""
-    verdict: Literal["GO", "NO-GO", "CONDITIONAL"]
-    confidence_score: int  # 0-100
-    overall_score: float  # 0-100
-    factor_scores: Dict[str, float]  # Individual factor scores
-    conditions_to_go: List[str]  # What must be proven for CONDITIONAL → GO
-    disconfirming_evidence: List[str]  # What would make this analysis wrong
-    reasoning: Dict[str, List[str]]  # Reasoning for each factor
 
 
 def analyze_competitors_from_data() -> List[CompetitorInfo]:
