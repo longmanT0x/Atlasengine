@@ -12,6 +12,7 @@ Design Decisions:
 """
 
 from datetime import datetime, timezone
+from typing import List, Dict, Any
 from app.api.schemas import (
     AnalyzeRequest, 
     AnalyzeResponse,
