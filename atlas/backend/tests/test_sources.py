@@ -73,3 +73,4 @@ async def test_sources_have_valid_urls(test_client, fintech_eu_idea):
         assert url.startswith(("http://", "https://")) or url == "unknown", \
             f"Invalid URL format: {url}"
 
+

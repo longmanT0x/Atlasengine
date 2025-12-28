@@ -78,3 +78,4 @@ def get_all_test_ideas() -> Dict[str, Dict[str, Any]]:
         "b2b_saas_benelux": B2B_SAAS_BENELUX_IDEA
     }
 
+

@@ -122,3 +122,4 @@ async def test_confidence_score_present(test_client, fintech_eu_idea):
     assert 0 <= confidence_score <= 100, \
         f"Confidence score out of range: {confidence_score}"
 
+

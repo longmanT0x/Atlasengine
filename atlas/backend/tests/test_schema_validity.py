@@ -116,3 +116,4 @@ async def test_debug_mode_includes_ledger(test_client, fintech_eu_idea):
     assert isinstance(analyze_response.evidence_ledger, list), \
         "Evidence ledger should be a list"
 
+

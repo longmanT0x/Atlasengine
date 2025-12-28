@@ -53,3 +53,4 @@ def b2b_saas_benelux_idea():
     from tests.fixtures.sample_ideas import B2B_SAAS_BENELUX_IDEA
     return B2B_SAAS_BENELUX_IDEA
 
+

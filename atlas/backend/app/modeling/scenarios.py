@@ -20,18 +20,8 @@ from app.modeling.data_retrieval import get_pricing_facts
 import statistics
 
 # Import these after __init__.py has defined them (circular import resolved by not importing scenarios in __init__)
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # For type hints only
-    pass
-
-# Runtime imports - these classes are defined in __init__.py before this module is imported
-# We need to import them here for runtime use, not just type hints
-try:
-    from app.modeling import MarketModel, MarketEstimate
-except ImportError:
-    # Fallback for when imported directly (shouldn't happen in normal flow)
-    pass
+# Note: These imports work because __init__.py doesn't import scenarios until after defining MarketModel and MarketEstimate
+from app.modeling import MarketModel, MarketEstimate
 
 
 class Scenario(BaseModel):

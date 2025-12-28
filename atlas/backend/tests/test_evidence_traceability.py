@@ -95,3 +95,4 @@ async def test_assumptions_list_is_populated(test_client, fintech_eu_idea):
         assert len(assumption) > 0, \
             "Assumption should not be empty"
 
+

@@ -63,3 +63,4 @@ async def test_all_sample_ideas_execute(test_client, sample_ideas):
         assert response.status_code in [200, 500], \
             f"Unexpected status code for {idea_name}: {response.status_code}"
 
+
